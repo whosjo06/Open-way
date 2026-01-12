@@ -56,9 +56,39 @@ Preferred communication style: Simple, everyday language.
 - **Persistent Settings**: User preferences (theme, text size, reduced motion) stored in localStorage via Zustand persist middleware
 
 ### Database Schema
-- **places**: Stores location information with name, category, accessibility status, description
-- **reviews**: User-submitted reviews linked to places
-- **signatures**: Petition signature tracking for advocacy feature
+- **categories**: Place categories (Transit, Museums, Libraries, Parks, etc.)
+- **places**: Location information with coordinates, accessibility status, address, hours
+- **accessibility_features**: Detailed accessibility features per place
+- **place_media**: Photo gallery for places
+- **place_tips**: User-submitted tips for places
+- **reviews**: User reviews with ratings and helpful vote counts
+- **signatures**: Petition signatures with location tracking
+- **petition_updates**: Organizer updates for the petition
+- **resources**: Accessibility resources directory
+- **events**: Community events calendar
+- **blog_posts**: News and advocacy articles
+- **faq_entries**: Frequently asked questions
+- **contact_submissions**: Contact form submissions
+- **partners**: Partner organizations
+- **activity_log**: Recent site activity feed
+
+### Application Pages
+- **Home (/)**: Featured places carousel, stats dashboard, activity feed, map preview, partners
+- **Places (/places)**: Directory with category/accessibility filters, map/list toggle, Leaflet map
+- **Place Detail (/places/:id)**: Photo gallery, accessibility checklist, tips, reviews, location map
+- **Community (/reviews)**: Review leaderboard, filters, helpful votes, featured reviewers
+- **Petition (/petition)**: Live signature counter, milestone celebrations, sign form, updates
+- **Resources (/resources)**: Categorized accessibility resources with search
+- **Events (/events)**: Event calendar with category filters
+- **Blog (/blog)**: News articles with modal view
+- **FAQ (/faq)**: Accordion with search
+- **Contact (/contact)**: Contact form with map
+- **Settings (/settings)**: Theme, text size, reduced motion, high contrast toggles
+
+### Global Features
+- **Global Search**: Cmd+K shortcut, searches across places, resources, events, blog
+- **Breadcrumb Navigation**: Auto-generated based on current route
+- **Accessibility Settings**: Theme, text size, reduced motion, high contrast (persisted)
 
 ## External Dependencies
 

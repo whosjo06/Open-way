@@ -83,6 +83,8 @@ Preferred communication style: Simple, everyday language.
 - **Security Headers**: helmet.js configured for production
 - **Input Sanitization**: HTML tag removal, length limits on user-submitted content
 - **Protected Routes**: Reviews and tips require authentication via requireAuth middleware
+- **Admin Authorization**: Admin content creation (places, events, resources, blog, FAQ, partners) requires isAdmin flag
+- **Admin Promotion**: To grant admin access, update user directly in database: `UPDATE users SET is_admin = true WHERE email = 'admin@example.com';`
 
 ### Application Pages
 - **Home (/)**: Featured places carousel, stats dashboard, activity feed, map preview, partners

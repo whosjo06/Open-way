@@ -56,21 +56,33 @@ Preferred communication style: Simple, everyday language.
 - **Persistent Settings**: User preferences (theme, text size, reduced motion) stored in localStorage via Zustand persist middleware
 
 ### Database Schema
+- **users**: User accounts with password hashes, 2FA settings, backup codes
+- **user_sessions**: PostgreSQL session store (via connect-pg-simple)
+- **saved_places**: User bookmarked places
 - **categories**: Place categories (Transit, Museums, Libraries, Parks, etc.)
 - **places**: Location information with coordinates, accessibility status, address, hours
 - **accessibility_features**: Detailed accessibility features per place
 - **place_media**: Photo gallery for places
-- **place_tips**: User-submitted tips for places
-- **reviews**: User reviews with ratings and helpful vote counts
+- **place_tips**: User-submitted tips for places (auth required)
+- **reviews**: User reviews with ratings and helpful vote counts (auth required, linked to userId)
 - **signatures**: Petition signatures with location tracking
 - **petition_updates**: Organizer updates for the petition
 - **resources**: Accessibility resources directory
 - **events**: Community events calendar
 - **blog_posts**: News and advocacy articles
 - **faq_entries**: Frequently asked questions
-- **contact_submissions**: Contact form submissions
+- **contact_submissions**: Contact form submissions (rate limited, sanitized)
 - **partners**: Partner organizations
 - **activity_log**: Recent site activity feed
+
+### Authentication & Security
+- **Password Security**: bcrypt with 12 rounds, minimum 8 chars with number+symbol, common password rejection
+- **Sessions**: PostgreSQL-backed via connect-pg-simple, 24-hour expiry, HttpOnly/Secure/SameSite cookies
+- **Rate Limiting**: 10 auth attempts per 15 min, 100 API requests per min
+- **Two-Factor Auth**: Optional TOTP with speakeasy, QR code setup, 10 backup codes per user
+- **Security Headers**: helmet.js configured for production
+- **Input Sanitization**: HTML tag removal, length limits on user-submitted content
+- **Protected Routes**: Reviews and tips require authentication via requireAuth middleware
 
 ### Application Pages
 - **Home (/)**: Featured places carousel, stats dashboard, activity feed, map preview, partners

@@ -77,14 +77,18 @@ Preferred communication style: Simple, everyday language.
 
 ### Authentication & Security
 - **Password Security**: bcrypt with 12 rounds, minimum 8 chars with number+symbol, common password rejection
-- **Sessions**: PostgreSQL-backed via connect-pg-simple, 24-hour expiry, HttpOnly/Secure/SameSite cookies
+- **Sessions**: PostgreSQL-backed via connect-pg-simple, 24-hour expiry, HttpOnly/Secure/SameSite=strict cookies
+- **Session Secret Validation**: Startup crashes if SESSION_SECRET is missing in production or less than 32 characters
 - **Rate Limiting**: 10 auth attempts per 15 min, 100 API requests per min
-- **Two-Factor Auth**: Optional TOTP with speakeasy, QR code setup, 10 backup codes per user
-- **Security Headers**: helmet.js configured for production
-- **Input Sanitization**: HTML tag removal, length limits on user-submitted content
+- **Two-Factor Auth**: Optional TOTP with speakeasy, QR code setup, 10 backup codes per user, AES-256-GCM encrypted at rest
+- **CSRF Protection**: All authenticated state-changing routes require X-CSRF-Token header (fetched from /api/csrf-token)
+- **Security Headers**: helmet.js with production CSP, HSTS (1 year), referrer policy, noSniff, xssFilter
+- **Input Sanitization**: Comprehensive XSS prevention (HTML tags, javascript: URLs, event handlers, control characters)
+- **SQL Injection Prevention**: All queries use Drizzle ORM with parameterized queries
 - **Protected Routes**: Reviews and tips require authentication via requireAuth middleware
-- **Admin Authorization**: Admin content creation (places, events, resources, blog, FAQ, partners) requires isAdmin flag
+- **Admin Authorization**: Admin content creation (places, events, resources, blog, FAQ, partners) requires isAdmin flag + validateCsrf
 - **Admin Promotion**: To grant admin access, update user directly in database: `UPDATE users SET is_admin = true WHERE email = 'admin@example.com';`
+- **Ownership Verification**: Update/delete operations check userId ownership in storage layer
 
 ### Application Pages
 - **Home (/)**: Featured places carousel, stats dashboard, activity feed, map preview, partners
